@@ -212,7 +212,7 @@ body {
 .project-parameters {
     display: grid;
     grid-template-columns: 190px auto;
-
+    grid-template-rows: 122px 100px;    
 }
 
 .project-parameter__header {

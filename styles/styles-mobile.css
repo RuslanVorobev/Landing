@@ -97,6 +97,7 @@
 
 .project-parameters {
     grid-template-columns: 40% 50%;
+    grid-template-rows: 95px 95px;    
     column-gap: 10%;
  }
 
@@ -148,7 +149,7 @@
 }
 
 .online-section {
-    padding-top: 32px;
+    padding-top: 15px;
     padding-left: 5%;
     padding-right: 5%;
     background: #131313;
