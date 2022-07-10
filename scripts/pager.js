@@ -1,82 +1,145 @@
-
-var currentProject = 0;
-var projectsCount = document.querySelectorAll(".projects__list>li").length;
-
-function setProjectHandlers()
-{
-    let knobs = document.querySelectorAll(".projects__navigatiom>.projects__knob");
-
-    for (let i = 0; i < knobs.length; i++)
-    {
-        let knob = knobs[i];
-        knob.addEventListener("click", () => setProject(i));
+class MyPager {
+    constructor(
+        on,
+        pictureGetterFunc = (item) =>
+            `<img src="${item.photo}" alt="${item.name}">`,
+        activeClass = "active"
+    ) {
+        this.data = null;
+        this.current = 0;
+        this.dataCout = 0;
+        this.baseElement = on;
+        this.pictureGetterFunc = pictureGetterFunc;
+        this.activePictureClass = activeClass;
+        this.tabsContainer = null;
+        this.tabGetterFunc = null;
+        this.activeTabClass = "active";
+        this.knobsContainer = null;
+        this.knobGetterFunc = null;
+        this.activeKnobClass = "active";
+        this.customHandler = null;
     }
 
-    let prev = document.querySelector(".projects__navigatiom>.projects__prev");
-    prev.addEventListener("click", () => setPrevProject());
+    setData(data) {
+        this.data = data;
+        this.current = 0;
+        this.dataCout = data.length;
 
-    let next = document.querySelector(".projects__navigatiom>.projects__next");
-    next.addEventListener("click", () => setNextProject());
-}
-
-function setProject(projectNum)
-{
-    let projects = document.querySelectorAll(".projects__list>li");
-    let knobs = document.querySelectorAll(".projects__navigatiom>.projects__knob");
-
-    for (let i = 0; i < projects.length; i++)
-    {
-        let project = projects[i];
-        let knob = knobs[i];
-        
-        if (i == projectNum)
-        {
-            project.classList.add("active")
-            knob.classList.add("active")
-
-            let photo = project.querySelector('.project-item__photo');
-            selectedProjectPhoto.src = photo.src;
-
-            let city = project.querySelector('.project-item__city');
-            selectedProjectCity.innerHTML = city.innerHTML;
-
-            let area = project.querySelector('.project-item__area');
-            selectedProjectArea.innerHTML = area.innerHTML;
-
-            let time = project.querySelector('.project-item__time');
-            selectedProjectTime.innerHTML = time.innerHTML;
-
-            let cost = project.querySelector('.project-item__cost');
-            selectedProjectCost.innerHTML = cost.innerHTML;
+        let pictures = "";
+        for (let item of this.data) {
+            pictures += this.pictureGetterFunc(item);
         }
-        else
-        {
-            project.classList.remove("active")
-            knob.classList.remove("active")
+        this.baseElement.innerHTML = pictures;
+
+        if (this.knobsContainer !== null && this.knobGetterFunc !== null) {
+            let knobs = "";
+            for (let item of this.data) {
+                knobs += this.knobGetterFunc(item);
+            }
+            this.knobsContainer.innerHTML = knobs;
+
+            let children = this.knobsContainer.childNodes;
+            for (let i = 0; i < children.length; ++i) {
+                children[i].addEventListener("click", () => this.show(i));
+            }
         }
+
+        if (this.tabsContainer !== null && this.tabGetterFunc !== null) {
+            let tabs = "";
+            for (let item of this.data) {
+                tabs += this.tabGetterFunc(item);
+            }
+            this.tabsContainer.innerHTML = tabs;
+
+            let children = this.tabsContainer.childNodes;
+            for (let i = 0; i < children.length; ++i) {
+                children[i].addEventListener("click", () => this.show(i));
+            }
+        }
+
+        this.show(0);
+
+        return this;
+    }
+
+    show(idx) {
+        if (this.dataCout == 0 || !this.baseElement.hasChildNodes()) return;
+
+        let children = this.baseElement.childNodes;
+        children[this.current].classList.remove(this.activePictureClass);
+        children[idx].classList.add(this.activePictureClass);
+
+        if (this.knobsContainer !== null) {
+            let children = this.knobsContainer.childNodes;
+            children[this.current].classList.remove(this.activeKnobClass);
+            children[idx].classList.add(this.activeKnobClass);
+        }
+
+        if (this.tabsContainer !== null) {
+            let children = this.tabsContainer.childNodes;
+            children[this.current].classList.remove(this.activeTabClass);
+            children[idx].classList.add(this.activeTabClass);
+        }
+
+        if (this.customHandler !== null) {
+            this.customHandler(this.data[idx]);
+        }
+
+        this.current = idx;
+    }
+
+    showNext() {
+        let idx = this.current;
+        if (++idx >= this.dataCout) {
+            idx = 0;
+        }
+
+        this.show(idx);
+    }
+
+    showPrev() {
+        let idx = this.current;
+        if (--idx < 0) {
+            idx = Math.max(0, this.dataCout - 1);
+        }
+
+        this.show(idx);
+    }
+
+    withNavButtons(prev, next) {
+        prev.addEventListener("click", () => this.showPrev());
+        next.addEventListener("click", () => this.showNext());
+
+        return this;
+    }
+
+    withKnobs(
+        on,
+        knobGetterFunc = (item) => `<button title="${item.name}"/>`,
+        activeClass = "active"
+    ) {
+        this.knobsContainer = on;
+        this.knobGetterFunc = knobGetterFunc;
+        this.activeKnobClass = activeClass;
+
+        return this;
+    }
+
+    withTabs(
+        on,
+        tabGetterFunc = (item) => `<li>"${item.name}"</li>`,
+        activeClass = "active"
+    ) {
+        this.tabsContainer = on;
+        this.tabGetterFunc = tabGetterFunc;
+        this.activeTabClass = activeClass;
+
+        return this;
+    }
+
+    withCustomHandler(handler = (item) => item) {
+        this.customHandler = handler;
+
+        return this;
     }
 }
-
-function setNextProject()
-{
-    if (++currentProject >= projectsCount)
-    {
-        currentProject = 0;
-    }
-
-    setProject(currentProject)
-}
-
-function setPrevProject()
-{
-    if (--currentProject < 0)
-    {
-        currentProject = Math.max(0, projectsCount - 1);
-    }
-
-    setProject(currentProject)
-}
-
-
-setProjectHandlers()
-setProject(0)

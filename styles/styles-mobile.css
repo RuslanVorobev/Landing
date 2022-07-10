@@ -80,7 +80,7 @@
     grid-row: 2;
 }
 
-.projects__selected-photo {
+.projects__photos {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -101,15 +101,16 @@
     column-gap: 10%;
  }
 
-.projects__navigatiom {
+.projects__navigation {
     grid-column: 1;
     grid-row: 3;
     justify-content: space-between;
     margin-left: 5%;
     margin-right: 5%;
+    z-index: 1;    
 }
 
-.projects__knob {
+.projects__knobs {
     display: none;
 }
 

@@ -67,40 +67,23 @@
                             <p id="selectedProjectCost" class="project-parameter__value project-cost">Upon request</p>
                         </div>
                     </div>
-                    <img id="selectedProjectPhoto" src="images/image 2.1.png" alt="Photo" class="projects__selected-photo">
+                    <div class="projects__photos">
+                        <img class="active" src="images/image 2.1.png" alt="Photo">
+                    </div>
                     <ul class="projects__list">
-                        <li class="projects__project project-item active">
-                            <img class="project-item__photo" src="images/image 2.png" alt="project photo">
-                            <p class="project-item__name">Rostov-on-Don, Admiral</p>
-                            <p class="project-item__city">Rostov-on-Don <br>LCD admiral</p>
-                            <p class="project-item__area">81 m2</p>
-                            <p class="project-item__time">3.5 months</p>
-                            <p class="project-item__cost">Upon request</p>
-                        </li>
-                        <li class="projects__project project-item">
-                            <img class="project-item__photo" src="images/image 2.1.png" alt="project photo">
-                            <p class="project-item__name">Sochi Thieves</p>
-                            <p class="project-item__city">Sochi Thieves</p>
-                            <p class="project-item__area">91 m2</p>
-                            <p class="project-item__time">4.5 months</p>
-                            <p class="project-item__cost">Upon request</p>
-                        </li>
-                        <li class="projects__project project-item">
-                            <img class="project-item__photo" src="images/image 2.png" alt="project photo">
-                            <p class="project-item__name">Rostov-on-Don Patriotic</p>
-                            <p class="project-item__city">Rostov-on-Don <br>LCD Patriotic</p>
-                            <p class="project-item__area">111 m2</p>
-                            <p class="project-item__time">5.5 months</p>
-                            <p class="project-item__cost">Upon request</p>
-                        </li>
+                        <li class="active">Rostov-on-Don, Admiral</li>
+                        <li>Sochi Thieves</li>
+                        <li>Rostov-on-Don Patriotic</li>
                     </ul>
-                    <nav class="projects__navigatiom">
+                    <nav class="projects__navigation">
                         <button class="projects__prev button_glyph button">
                             <img src="images/buttons/left_arrow.svg" alt="Prev">
                         </button>
-                        <button class="projects__knob button_point button active"/>
-                        <button class="projects__knob button_point button"/>
-                        <button class="projects__knob button_point button"/>
+                        <div class="projects__knobs">
+                            <button class="projects__knob button_point button active"/>
+                            <button class="projects__knob button_point button"/>
+                            <button class="projects__knob button_point button"/>
+                        </div>
                         <button class="projects__next button_glyph button">
                             <img src="images/buttons/right_arrow.svg" alt="Next">
                         </button>
@@ -415,4 +398,5 @@
         </footer>
     </body>
     <script src="scripts/pager.js"></script>
+    <script src="scripts/index.js"></script>
 </html>
